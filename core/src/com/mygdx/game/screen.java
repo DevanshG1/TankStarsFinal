@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -39,6 +40,7 @@ public class screen extends ApplicationAdapter implements Screen,InputProcessor,
         announce();
         bg_imgnotnull(bg_img);
     }
+
     @Override
     public void dispose(){
         stage.dispose();

@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -26,10 +27,9 @@ public class mainmenu extends screen implements InputProcessor {
     private Overlay line;
     private Buttons exit;
     private Buttons pvp;
+
     private Buttons pve;
     private Buttons saved;
-
-
 
     public mainmenu(String s) {
         back_path=s;

@@ -39,7 +39,7 @@ public class tankselect1 extends screen implements InputProcessor {
         line=new Overlay("tanksel/line.png",66.66f,0,90*aspectratio,0.2f);
         hscreen=new Overlay("tanksel/Homescreen.png",0,0,90*aspectratio,66.66f);
         tomain=new Buttons(new Texture(Gdx.files.internal("tanksel/arrow_left.png")),0,45f,3,2.5f);
-        play=new Buttons(new Texture(Gdx.files.internal("tanksel/play.png")),76f,5f,16,8);
+        play=new Buttons(new Texture(Gdx.files.internal("tanksel/buttonNext.png")),76f,5f,16,8);
         Tank1=new Buttons(new Texture(Gdx.files.internal("tanksel/Tank_circle1.png")),75f,17f,20,10);
         Tank2=new Buttons(new Texture(Gdx.files.internal("tanksel/Tank_circle2.png")),75f,25f,20,10);
         Tank3=new Buttons(new Texture(Gdx.files.internal("tanksel/Tank_circle3.png")),75f,33f,20,10);
