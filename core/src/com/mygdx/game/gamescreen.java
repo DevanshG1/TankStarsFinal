@@ -182,9 +182,12 @@ public class gamescreen extends screen implements Screen, InputProcessor {
                 tank2.getRightaxis().setMotorSpeed(999999999);
                 break;
             case Input.Keys.ESCAPE:
-                Main.seti(1);
-                ((Main) Gdx.app.getApplicationListener()).setScreen((Screen) screenhandler.getStages().get(1));
-                Main.setinput(Main.getinput().getnormalmux((screen) screenhandler.getStages().get(1),((screen)screenhandler.getStages().get(1)).getStage()));
+                Main.seti(0);
+                ((Main) Gdx.app.getApplicationListener()).setScreen((Screen) screenhandler.getStages().get(0));
+                screenhandler.getStages().put(3,screenhandler.init(new tankselect("tanksel/bg.png")));
+                screenhandler.getStages().put(2,screenhandler.init(new tankselect1("tanksel/bg.png")));
+                screenhandler.getStages().put(1,screenhandler.init(new tankselect("mainmenu/bg.png")));
+                Main.setinput(Main.getinput().getnormalmux((screen) screenhandler.getStages().get(0),((screen)screenhandler.getStages().get(0)).getStage()));
                 break;
         }
         return true;

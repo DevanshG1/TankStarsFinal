@@ -69,5 +69,10 @@ public class Buttons extends Image implements Serializable {
         else if(this.getName().equals("Tank32")){
             tankselect.shower(2);
         }
+        else if(this.getName().equals("saved")){
+            ((Main) Gdx.app.getApplicationListener()).setScreen((Screen) screenhandler.getStages().get(4));
+            Main.setinput(Main.getinput().addinmux((screen) screenhandler.getStages().get(4),((screen)screenhandler.getStages().get(4)).getStage(),((gamescreen)screenhandler.getStages().get(4)).getTank1()));
+            Main.seti(4);
+        }
     }
 }
