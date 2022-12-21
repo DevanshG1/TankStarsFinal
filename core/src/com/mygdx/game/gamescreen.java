@@ -86,6 +86,9 @@ public class gamescreen extends screen implements Screen, InputProcessor {
         batch.begin();
         batch.draw(Bg,-838,-460,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         batch.draw(ground,-838,-460,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        batch.draw(new Texture(Gdx.files.internal("gamescreen/h1.png")),-500f,350f,300f,75f);
+        batch.draw(new Texture(Gdx.files.internal("gamescreen/h2.png")),200f,350f,300f,75f);
+
         batch.setProjectionMatrix(camera.combined);
         world.getBodies(temp);
         for(Body body : temp){
@@ -177,6 +180,11 @@ public class gamescreen extends screen implements Screen, InputProcessor {
                 tank2.getLeftaxis().setMotorSpeed(999999999);
                 tank2.getRightaxis().enableMotor(true);
                 tank2.getRightaxis().setMotorSpeed(999999999);
+                break;
+            case Input.Keys.ESCAPE:
+                Main.seti(1);
+                ((Main) Gdx.app.getApplicationListener()).setScreen((Screen) screenhandler.getStages().get(1));
+                Main.setinput(Main.getinput().getnormalmux((screen) screenhandler.getStages().get(1),((screen)screenhandler.getStages().get(1)).getStage()));
                 break;
         }
         return true;
