@@ -3,10 +3,13 @@ package com.mygdx.game;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -25,6 +28,7 @@ public class gamescreen extends screen implements Screen, InputProcessor {
     private SpriteBatch batch;
     private Texture Bg;
     private Texture ground;
+    private Array<Body> temp;
 
     private float aspectratio;
     public gamescreen(){
@@ -33,6 +37,7 @@ public class gamescreen extends screen implements Screen, InputProcessor {
         Bg=new Texture(Gdx.files.internal("gamescreen/theme2.png"));
         ground=new Texture(Gdx.files.internal("gamescreen/terrainFinal.png"));
         batch=new SpriteBatch();
+        temp=new Array<Body>();
         create();
     }
     public Stage getStage(){
@@ -47,7 +52,7 @@ public class gamescreen extends screen implements Screen, InputProcessor {
     }
     @Override
     public void show() {
-        world=new World(new Vector2(0,-49f),true);
+        world=new World(new Vector2(0,-25f),true);
         box2DDebugRenderer=new Box2DDebugRenderer();
         BodyDef tankdef=new BodyDef();
         FixtureDef fixtureDef=new FixtureDef();
@@ -55,32 +60,42 @@ public class gamescreen extends screen implements Screen, InputProcessor {
         tankdef.type= BodyDef.BodyType.StaticBody;
         tankdef.position.set(0,0);
         ChainShape shape=new ChainShape();
-        shape.createChain(new Vector2[]{new Vector2(-1000,338),new Vector2(-740,338),new Vector2(-562,-10),new Vector2(-290,-10),new Vector2(-230,108),new Vector2(-60,108),new Vector2(7,0),new Vector2(260,0),new Vector2(383,228),new Vector2(595,228),new Vector2(745,-63),new Vector2(1000,-63)});
+        shape.createChain(new Vector2[]{new Vector2(-1000,338),new Vector2(-740,338),new Vector2(-562,-10),new Vector2(-290,-10),new Vector2(-150,108),new Vector2(-60,108),new Vector2(7,0),new Vector2(260,0),new Vector2(520,228),new Vector2(595,228),new Vector2(745,-63),new Vector2(1000,-63)});
         fixtureDef.shape=shape;
         fixtureDef.friction=1;
         world.createBody(tankdef).createFixture(fixtureDef);
         shape.dispose();
         FixtureDef wheelfix=new FixtureDef();
-        fixtureDef.density=1000000;
+        fixtureDef.density=10;
         fixtureDef.friction=0.4f;
-        fixtureDef.restitution=0.001f;
-        wheelfix.density=fixtureDef.density*10;
+        fixtureDef.restitution=0.0000001f;
+        wheelfix.density=fixtureDef.density*1000;
         wheelfix.friction=1f;
-        wheelfix.restitution=0.001f;
+        wheelfix.restitution=0.000001f;
         FixtureDef muzzledef=new FixtureDef();
         PolygonShape muzzleshape=new PolygonShape();
         muzzleshape.setAsBox(30,10);
         muzzledef.shape=muzzleshape;
-        tank1=new Tank(world,fixtureDef,wheelfix,muzzledef,-430,-5,90,60,0);
-        tank2=new Tank(world,fixtureDef,wheelfix,muzzledef,130,5,90,60,1);
+        tank1=new Tank("Player1",world,fixtureDef,wheelfix,muzzledef,-430,0,90,60,0);
+        tank2=new Tank("Player2",world,fixtureDef,wheelfix,muzzledef,130,10,90,60,1);
     }
 
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
         batch.begin();
-        batch.draw(Bg,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        batch.draw(ground,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        batch.draw(Bg,-838,-460,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        batch.draw(ground,-838,-460,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        batch.setProjectionMatrix(camera.combined);
+        world.getBodies(temp);
+        for(Body body : temp){
+            if(body.getUserData()!=null && body.getUserData() instanceof Sprite){
+                Sprite temp_sp=(Sprite) body.getUserData();
+                temp_sp.setPosition(body.getPosition().x-temp_sp.getWidth()/2,body.getPosition().y- temp_sp.getHeight()/2);
+                temp_sp.setRotation(body.getAngle()* MathUtils.radiansToDegrees);
+                temp_sp.draw(batch);
+            }
+        }
         batch.end();
         box2DDebugRenderer.render(world,camera.combined);
         stage.draw();
@@ -112,12 +127,84 @@ public class gamescreen extends screen implements Screen, InputProcessor {
         box2DDebugRenderer.dispose();
     }
 
+
+    public Tank getTank1(){
+        return tank1;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+//        System.out.println("gamescreen :: keyDown");
+        switch (keycode){
+            case Input.Keys.W:
+            case Input.Keys.S:
+                tank1.muzzle().applyForce(-10000,-10000,15,0,true);
+            case Input.Keys.D:
+                tank1.getLeftaxis().enableMotor(true);
+                tank1.getLeftaxis().setMotorSpeed(-999999999);
+                tank1.getRightaxis().enableMotor(true);
+                tank1.getRightaxis().setMotorSpeed(-999999999);
+                break;
+            case Input.Keys.A:
+                tank1.getLeftaxis().enableMotor(true);
+                tank1.getLeftaxis().setMotorSpeed(999999999);
+                tank1.getRightaxis().enableMotor(true);
+                tank1.getRightaxis().setMotorSpeed(999999999);
+                break;
+            case Input.Keys.RIGHT:
+                tank2.getLeftaxis().enableMotor(true);
+                tank2.getLeftaxis().setMotorSpeed(-999999999);
+                tank2.getRightaxis().enableMotor(true);
+                tank2.getRightaxis().setMotorSpeed(-999999999);
+                break;
+            case Input.Keys.LEFT:
+                tank2.getLeftaxis().enableMotor(true);
+                tank2.getLeftaxis().setMotorSpeed(999999999);
+                tank2.getRightaxis().enableMotor(true);
+                tank2.getRightaxis().setMotorSpeed(999999999);
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        switch (keycode) {
+            case Input.Keys.D:
+            case Input.Keys.A:
+                tank1.getLeftaxis().enableMotor(false);
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
-    public Tank getTank1(){
-        return tank1;
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return false;
     }
 }

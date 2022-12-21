@@ -71,6 +71,22 @@ public class mainmenu extends screen implements InputProcessor {
         stage.addActor(settings);
 
     }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
     @Override
     public void dispose(){
         stage.dispose();

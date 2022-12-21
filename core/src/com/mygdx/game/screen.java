@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.*;
 
-public class screen extends ApplicationAdapter implements InputProcessor,Screen {
+public class screen extends ApplicationAdapter implements Screen,InputProcessor {
     private Stage stage;
     private background bg_img;
     private Buttons bg_img2;
@@ -42,6 +42,38 @@ public class screen extends ApplicationAdapter implements InputProcessor,Screen 
     }
     public Stage getStage(){
         return stage;
+    }
+
+
+
+    @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void render(float delta) {
+
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
     }
 
     @Override
@@ -82,20 +114,5 @@ public class screen extends ApplicationAdapter implements InputProcessor,Screen 
     @Override
     public boolean scrolled(float amountX, float amountY) {
         return false;
-    }
-
-    @Override
-    public void show() {
-
-    }
-
-    @Override
-    public void render(float delta) {
-
-    }
-
-    @Override
-    public void hide() {
-
     }
 }
