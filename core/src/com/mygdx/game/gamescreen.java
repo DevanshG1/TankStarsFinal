@@ -67,8 +67,12 @@ public class gamescreen extends screen implements Screen, InputProcessor {
         wheelfix.density=fixtureDef.density*10;
         wheelfix.friction=1f;
         wheelfix.restitution=0.001f;
-        tank1=new Tank(world,fixtureDef,wheelfix,-430,-5,90,60);
-        tank2=new Tank(world,fixtureDef,wheelfix,130,5,90,60);
+        FixtureDef muzzledef=new FixtureDef();
+        PolygonShape muzzleshape=new PolygonShape();
+        muzzleshape.setAsBox(30,10);
+        muzzledef.shape=muzzleshape;
+        tank1=new Tank(world,fixtureDef,wheelfix,muzzledef,-430,-5,90,60,0);
+        tank2=new Tank(world,fixtureDef,wheelfix,muzzledef,130,5,90,60,1);
     }
 
     @Override
