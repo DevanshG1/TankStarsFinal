@@ -25,7 +25,9 @@ public class screen extends ApplicationAdapter implements Screen,InputProcessor,
 
     public screen() {
     }
-
+    public void Serialize(){
+        
+    }
     @Override
     public void create(){
         stage=new Stage(new FitViewport(100,90*aspectratio));

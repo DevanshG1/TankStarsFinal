@@ -48,7 +48,6 @@ public class mainmenu extends screen implements InputProcessor {
         hscreen=new Overlay("mainmenu/Homescreen.png",0,0,90*aspectratio,66.66f);
         logo=new Overlay("mainmenu/tankstars.png",19f,33f,15,30);
         exit=new Buttons(new Texture(Gdx.files.internal("mainmenu/exit.png")),75f,7f,16,8);
-        pve=new Buttons(new Texture(Gdx.files.internal("mainmenu/vsPlayer.png")),75f,34f,16,8);
         pvp=new Buttons(new Texture(Gdx.files.internal("mainmenu/vsFriend.png")),75f,25f,16,8);
         saved=new Buttons(new Texture(Gdx.files.internal("mainmenu/savedGames.png")),75f,16f,16,8);
         line.setName("line");
@@ -58,7 +57,6 @@ public class mainmenu extends screen implements InputProcessor {
         logo.setName("logo");
         exit.setName("exit");
         pvp.setName("pvp");
-        pve.setName("pve");
         saved.setName("saved");
         stage.addActor(bg_img);
         stage.addActor(hscreen);
@@ -66,10 +64,8 @@ public class mainmenu extends screen implements InputProcessor {
         stage.addActor(line);
         stage.addActor(exit);
         stage.addActor(pvp);
-        stage.addActor(pve);
         stage.addActor(saved);
         stage.addActor(settings);
-
     }
 
     @Override
