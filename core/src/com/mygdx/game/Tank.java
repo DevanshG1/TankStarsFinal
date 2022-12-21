@@ -12,10 +12,9 @@ import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
 
 public class Tank implements InputProcessor {
     private Body body,left_wheel,right_wheel;
-    private float motorspeed;
+    private float motorspeed=100000;
     private WheelJoint leftaxis,rightaxis;
     public Tank(World world, FixtureDef bodyfixture,FixtureDef wheelfix, float x, float y, float width,float height){
-        motorspeed=10000000;
         BodyDef bodyDef=new BodyDef();
         bodyDef.type= BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x,y);
@@ -35,6 +34,7 @@ public class Tank implements InputProcessor {
         axisdef.bodyA=body;
         axisdef.bodyB=left_wheel;
         axisdef.localAnchorA.set(-width/2*.8f+wheelshape.getRadius(),-height/2);
+        axisdef.localAxisA.set(Vector2.Y);
         axisdef.frequencyHz=bodyfixture.density;
         leftaxis=(WheelJoint) world.createJoint(axisdef);
         axisdef.bodyB=right_wheel;

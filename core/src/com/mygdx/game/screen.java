@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.*;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.*;
 public class screen extends ApplicationAdapter implements InputProcessor,Screen {
     private Stage stage;
     private background bg_img;
+    private Buttons bg_img2;
     private String back_path;
     private float aspectratio;
     public screen(String s){
@@ -26,6 +28,9 @@ public class screen extends ApplicationAdapter implements InputProcessor,Screen 
     public void create(){
         stage=new Stage(new FitViewport(100,90*aspectratio));
         bg_img=new background(back_path);
+        bg_img2=new Buttons(new Texture(Gdx.files.internal(back_path)),0,0,100,90*aspectratio);
+        bg_img2.setName("intro");
+        stage.addActor(bg_img2);
         stage.addActor(bg_img);
     }
     @Override

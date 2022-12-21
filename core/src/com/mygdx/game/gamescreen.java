@@ -21,6 +21,7 @@ public class gamescreen extends screen implements Screen, InputProcessor {
     private final int VELOCITYITERATIONS=8,POSITIONITERATION=3;
     private Body tire;
     private Tank tank1;
+    private Tank tank2;
     private SpriteBatch batch;
     private Texture Bg;
     private Texture ground;
@@ -46,7 +47,7 @@ public class gamescreen extends screen implements Screen, InputProcessor {
     }
     @Override
     public void show() {
-        world=new World(new Vector2(0,-9.8f),true);
+        world=new World(new Vector2(0,-49f),true);
         box2DDebugRenderer=new Box2DDebugRenderer();
         BodyDef tankdef=new BodyDef();
         FixtureDef fixtureDef=new FixtureDef();
@@ -56,16 +57,18 @@ public class gamescreen extends screen implements Screen, InputProcessor {
         ChainShape shape=new ChainShape();
         shape.createChain(new Vector2[]{new Vector2(-1000,338),new Vector2(-740,338),new Vector2(-562,-10),new Vector2(-290,-10),new Vector2(-230,108),new Vector2(-60,108),new Vector2(7,0),new Vector2(260,0),new Vector2(383,228),new Vector2(595,228),new Vector2(745,-63),new Vector2(1000,-63)});
         fixtureDef.shape=shape;
+        fixtureDef.friction=1;
         world.createBody(tankdef).createFixture(fixtureDef);
         shape.dispose();
         FixtureDef wheelfix=new FixtureDef();
-        fixtureDef.density=5;
+        fixtureDef.density=1000000;
         fixtureDef.friction=0.4f;
-        fixtureDef.restitution=0.3f;
+        fixtureDef.restitution=0.001f;
         wheelfix.density=fixtureDef.density*10;
         wheelfix.friction=1f;
-        wheelfix.restitution=0.4f;
-        tank1=new Tank(world,fixtureDef,wheelfix,-430,0,90,60);
+        wheelfix.restitution=0.001f;
+        tank1=new Tank(world,fixtureDef,wheelfix,-430,-5,90,60);
+        tank2=new Tank(world,fixtureDef,wheelfix,130,5,90,60);
     }
 
     @Override
@@ -108,5 +111,9 @@ public class gamescreen extends screen implements Screen, InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;
+    }
+
+    public Tank getTank1(){
+        return tank1;
     }
 }

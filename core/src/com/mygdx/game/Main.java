@@ -15,6 +15,7 @@ public class Main extends Game implements InputProcessor {
 	private static int i=0;
 	private int flag=0;
 	private Stage stage;
+	private static InputHandler inputHandler;
 	@Override
 	public void create () {
 		temp_screen=screenhandler.init(new screen("loading/tank.png"));
@@ -22,14 +23,14 @@ public class Main extends Game implements InputProcessor {
 		hey=screenhandler.init(new tankselect("tanksel/bg.png"));
 		hey=screenhandler.init(new gamescreen());
 		stage =((screen)temp_screen).getStage();
+		inputHandler=new InputHandler(this);
+		setinput(inputHandler.getnormalmux((screen)temp_screen,((screen) temp_screen).getStage()));
 	}
 
 	@Override
 	public void render () {
 		ScreenUtils.clear(0, 0, 0, 1);
 		super.render();
-		InputMultiplexer im =new InputMultiplexer(stage,(screen)temp_screen,this);
-		Gdx.input.setInputProcessor(this);
 		Iterator<Map.Entry<Integer, Screen>> it=screenhandler.getStages().entrySet().iterator();
 		while(it.hasNext()){
 			Map.Entry<Integer, Screen> ele= it.next();
@@ -62,14 +63,16 @@ public class Main extends Game implements InputProcessor {
 	public static void seti(int it){
 		i=it;
 	}
+	public static InputHandler getinput(){
+		return inputHandler;
+	}
+	public static void setinput(InputMultiplexer it){
+		Gdx.input.setInputProcessor(it);
+	}
 
 	@Override
 	public boolean keyDown(int keycode) {
-
-		if(Gdx.input.isKeyPressed(Input.Keys.ENTER)){
-			i=1;
-		}
-		return true;
+		return false;
 	}
 
 	@Override
