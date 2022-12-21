@@ -1,10 +1,9 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -21,17 +20,19 @@ public class gamescreen extends screen implements Screen, InputProcessor {
     private final float TIMESTEP=1f/60f;
     private final int VELOCITYITERATIONS=8,POSITIONITERATION=3;
     private Body tire;
+    private Tank tank1;
+    private SpriteBatch batch;
+    private Texture Bg;
+    private Texture ground;
 
-    private background bg_img;
-    private String back_path;
     private float aspectratio;
     public gamescreen(){
         aspectratio=(float)Gdx.graphics.getHeight()/(float)Gdx.graphics.getWidth();
         movement=new Vector2();
+        Bg=new Texture(Gdx.files.internal("gamescreen/theme2.png"));
+        ground=new Texture(Gdx.files.internal("gamescreen/terrainFinal.png"));
+        batch=new SpriteBatch();
         create();
-    }
-    public background getBg_img(){
-        return bg_img;
     }
     public Stage getStage(){
         return stage;
@@ -45,7 +46,6 @@ public class gamescreen extends screen implements Screen, InputProcessor {
     }
     @Override
     public void show() {
-
         world=new World(new Vector2(0,-9.8f),true);
         box2DDebugRenderer=new Box2DDebugRenderer();
         BodyDef tankdef=new BodyDef();
@@ -54,29 +54,30 @@ public class gamescreen extends screen implements Screen, InputProcessor {
         tankdef.type= BodyDef.BodyType.StaticBody;
         tankdef.position.set(0,0);
         ChainShape shape=new ChainShape();
-        shape.createChain(new Vector2[]{new Vector2(-500,0),new Vector2(500,0)});
+        shape.createChain(new Vector2[]{new Vector2(-1000,338),new Vector2(-740,338),new Vector2(-562,-10),new Vector2(-290,-10),new Vector2(-230,108),new Vector2(-60,108),new Vector2(7,0),new Vector2(260,0),new Vector2(383,228),new Vector2(595,228),new Vector2(745,-63),new Vector2(1000,-63)});
         fixtureDef.shape=shape;
         world.createBody(tankdef).createFixture(fixtureDef);
-        tankdef.type= BodyDef.BodyType.DynamicBody;
-        tankdef.position.set(5,251);
-        PolygonShape box=new PolygonShape();
-        box.setAsBox(6f,10);
-        fixtureDef.shape=box;
-        fixtureDef.density=2.5f;
-        fixtureDef.friction=0.25f;
-        fixtureDef.restitution=0.1f;
-        tire=world.createBody(tankdef);
-        tire.createFixture(fixtureDef);
-        box.dispose();
+        shape.dispose();
+        FixtureDef wheelfix=new FixtureDef();
+        fixtureDef.density=5;
+        fixtureDef.friction=0.4f;
+        fixtureDef.restitution=0.3f;
+        wheelfix.density=fixtureDef.density*10;
+        wheelfix.friction=1f;
+        wheelfix.restitution=0.4f;
+        tank1=new Tank(world,fixtureDef,wheelfix,-430,0,90,60);
     }
 
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
+        batch.begin();
+        batch.draw(Bg,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        batch.draw(ground,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        batch.end();
         box2DDebugRenderer.render(world,camera.combined);
-        world.step(TIMESTEP, VELOCITYITERATIONS,POSITIONITERATION);
-        tire.applyForceToCenter(movement,true);
         stage.draw();
+        world.step(TIMESTEP, VELOCITYITERATIONS,POSITIONITERATION);
     }
 
     @Override
@@ -106,9 +107,6 @@ public class gamescreen extends screen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if(Gdx.input.isKeyPressed(Input.Keys.D)){
-            movement.x=500;
-        }
-        return true;
+        return false;
     }
 }
