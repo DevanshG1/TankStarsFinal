@@ -52,6 +52,7 @@ public class Tank implements InputProcessor {
         yco=0;
         this.width=width;
         this.height=height;
+        proj_sprite=new Sprite(new Texture(Gdx.files.internal("gamescreen/missile.png")));
         if(flag==0){
             if(tankselect1.type()==0){
                 boxSprite=new Sprite(new Texture(Gdx.files.internal("gamescreen/tank1.png")));
@@ -94,8 +95,11 @@ public class Tank implements InputProcessor {
         projshape.setRadius(height/8);
         boxSprite.setSize(120,105);
         boxSprite.setOrigin(boxSprite.getWidth()/2,boxSprite.getHeight()/2);
+        proj_sprite.setSize(30,20);
+        proj_sprite.setOrigin(proj_sprite.getWidth()/2,proj_sprite.getHeight()/2);
         body.setUserData(boxSprite);
         projectile= world.createBody(bodyDef);
+        projectile.setUserData(proj_sprite);
         projfix=new FixtureDef();
         projfix.shape=projshape;
         projfix.density=3;
@@ -136,20 +140,27 @@ public class Tank implements InputProcessor {
     public Body muzzle(){
         return muzzle;
     }
-    public void shoot(World world){
+    public void shoot(World world,Body proj){
         world.destroyJoint(projectilejoint);
         if(flag==0){
-            projectile.applyForceToCenter(100000000*xco,1000000000*yco,true);
+            proj.applyForceToCenter(100000000*xco,1000000000*yco,true);
         }else{
-            projectile.applyForceToCenter(-100000000*xco,1000000000*yco,true);
+            proj.applyForceToCenter(-100000000*xco,1000000000*yco,true);
         }
+    }
+    public void delete(World world,Body proj){
+        world.destroyBody(proj);
         createprojectile(world);
+    }
+    public Body projectile(){
+        return projectile;
     }
     public void createprojectile(World world){
         BodyDef bodyDef=new BodyDef();
         bodyDef.type= BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(plax,play);
         projectile=world.createBody(bodyDef);
+        projectile.setUserData(proj_sprite);
         projectile.createFixture(projfix);
         projectilejointdef.bodyA=body;
         projectilejointdef.bodyB=projectile;

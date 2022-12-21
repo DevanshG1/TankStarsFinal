@@ -31,7 +31,6 @@ public class tankselect extends screen implements InputProcessor {
         Maintank= new Overlay[]{new Overlay("tanksel/tank1.png", 25, 5, 30, 30), new Overlay("tanksel/tank2.png", 25, 5, 30, 30), new Overlay("tanksel/tank3.png", 25f, 10.5f, 20, 30)};
         create();
     }
-
     @Override
     public void create(){
         stage=new Stage(new FitViewport(100,90*aspectratio));

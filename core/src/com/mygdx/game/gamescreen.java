@@ -97,7 +97,7 @@ public class gamescreen extends screen implements Screen, InputProcessor {
             }
         }
         batch.end();
-//        box2DDebugRenderer.render(world,camera.combined);
+        box2DDebugRenderer.render(world,camera.combined);
         stage.draw();
         world.step(TIMESTEP, VELOCITYITERATIONS,POSITIONITERATION);
     }
@@ -149,7 +149,11 @@ public class gamescreen extends screen implements Screen, InputProcessor {
                 tank1.xdec();
                 break;
             case Input.Keys.F:
-                tank1.shoot(world);
+                tank1.shoot(world,tank1.projectile());
+                break;
+            case Input.Keys.TAB:
+                tank1.delete(world, tank1.projectile());
+                break;
             case Input.Keys.D:
                 tank1.getLeftaxis().enableMotor(true);
                 tank1.getLeftaxis().setMotorSpeed(-999999999);
