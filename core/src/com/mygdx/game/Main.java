@@ -6,6 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.ScreenUtils;
+
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
@@ -116,4 +118,6 @@ public class Main extends Game implements InputProcessor {
 	public boolean scrolled(float amountX, float amountY) {
 		return false;
 	}
+
 }
+
