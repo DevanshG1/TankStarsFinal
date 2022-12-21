@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
-public class background extends Actor {
+import java.io.Serializable;
+
+public class background extends Actor implements Serializable {
     private final String path;
 
     public background(String s){

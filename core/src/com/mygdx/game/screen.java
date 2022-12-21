@@ -9,7 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.*;
 
-public class screen extends ApplicationAdapter implements Screen,InputProcessor {
+import java.io.Serializable;
+
+public class screen extends ApplicationAdapter implements Screen,InputProcessor, Serializable {
     private Stage stage;
     private background bg_img;
     private Buttons bg_img2;
@@ -32,6 +34,8 @@ public class screen extends ApplicationAdapter implements Screen,InputProcessor 
         bg_img2.setName("intro");
         stage.addActor(bg_img2);
         stage.addActor(bg_img);
+        announce();
+        bg_imgnotnull(bg_img);
     }
     @Override
     public void dispose(){
@@ -43,8 +47,18 @@ public class screen extends ApplicationAdapter implements Screen,InputProcessor 
     public Stage getStage(){
         return stage;
     }
-
-
+public void announce(){
+    System.out.println("Checking to see if the Background image is null");
+}
+public void bg_imgnotnull(background bg_img){
+        try{
+            assert(bg_img!=null);
+        }
+        catch (AssertionError e){
+            System.out.println("Error! Bg Image is null");
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void show() {

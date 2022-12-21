@@ -7,7 +7,15 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class tankselect extends screen implements InputProcessor {
-    private Stage stage;
+    public static void shower(int flag){
+        tank_player2=flag;
+    }
+    private static Stage stage;
+    private static int tank_player2;
+    private Overlay[] Maintank;
+    private Buttons Tank1;
+    private Buttons Tank2;
+    private Buttons Tank3;
     private background bg_img;
     private String back_path;
     private float aspectratio;
@@ -15,12 +23,12 @@ public class tankselect extends screen implements InputProcessor {
     private Overlay hscreen;
     private Buttons tomain;
     private Buttons play;
-    private Buttons next_tank;
-    private Buttons prev_tank;
 
     public tankselect(String s){
         back_path=s;
+        tank_player2=0;
         aspectratio=(float) Gdx.graphics.getHeight()/(float)Gdx.graphics.getWidth();
+        Maintank= new Overlay[]{new Overlay("tanksel/tank1.png", 25, 5, 30, 30), new Overlay("tanksel/tank2.png", 25, 5, 30, 30), new Overlay("tanksel/tank3.png", 25f, 10.5f, 20, 30)};
         create();
     }
 
@@ -32,8 +40,12 @@ public class tankselect extends screen implements InputProcessor {
         hscreen=new Overlay("tanksel/Homescreen.png",0,0,90*aspectratio,66.66f);
         tomain=new Buttons(new Texture(Gdx.files.internal("tanksel/arrow_left.png")),0,45f,3,2.5f);
         play=new Buttons(new Texture(Gdx.files.internal("tanksel/play.png")),76f,5f,16,8);
-        next_tank=new Buttons(new Texture(Gdx.files.internal("tanksel/arrow_right.png")),90f,22f,3,2.5f);
-        prev_tank=new Buttons(new Texture(Gdx.files.internal("tanksel/arrow_left.png")),75f,22f,3,2.5f);
+        Tank1=new Buttons(new Texture(Gdx.files.internal("tanksel/Tank_circle1.png")),75f,17f,20,10);
+        Tank2=new Buttons(new Texture(Gdx.files.internal("tanksel/Tank_circle2.png")),75f,25f,20,10);
+        Tank3=new Buttons(new Texture(Gdx.files.internal("tanksel/Tank_circle3.png")),75f,33f,20,10);
+        Tank1.setName("Tank12");
+        Tank2.setName("Tank22");
+        Tank3.setName("Tank32");
         play.setName("play");
         line.setName("line");
         tomain.setName("tomain");
@@ -41,15 +53,20 @@ public class tankselect extends screen implements InputProcessor {
         stage.addActor(line);
         stage.addActor(hscreen);
         stage.addActor(play);
+        stage.addActor(Tank1);
+        stage.addActor(Tank2);
+        stage.addActor(Tank3);
+        stage.addActor(Maintank[0]);
         stage.addActor(tomain);
-        stage.addActor(next_tank);
-        stage.addActor(prev_tank);
     }
     public background getBg_img(){
         return bg_img;
     }
     public Stage getStage(){
         return stage;
+    }
+    public static int type(){
+        return tank_player2;
     }
 
     @Override

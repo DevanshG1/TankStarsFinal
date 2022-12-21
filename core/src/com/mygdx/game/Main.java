@@ -20,6 +20,7 @@ public class Main extends Game implements InputProcessor {
 	public void create () {
 		temp_screen=screenhandler.init(new screen("loading/tank.png"));
 		Screen hey=screenhandler.init(new mainmenu("mainmenu/bg.png"));
+		hey=screenhandler.init(new tankselect1("tanksel/bg.png"));
 		hey=screenhandler.init(new tankselect("tanksel/bg.png"));
 		hey=screenhandler.init(new gamescreen());
 		stage =((screen)temp_screen).getStage();
@@ -34,18 +35,18 @@ public class Main extends Game implements InputProcessor {
 		Iterator<Map.Entry<Integer, Screen>> it=screenhandler.getStages().entrySet().iterator();
 		while(it.hasNext()){
 			Map.Entry<Integer, Screen> ele= it.next();
-			if((int)ele.getKey()==i && i!=3){
+			if((int)ele.getKey()==i && i!=4){
 				temp_screen=(screen)ele.getValue();
 			}
 		}
 		stage =((screen)temp_screen).getStage();
 		stage.act(Gdx.graphics.getDeltaTime());
-		if(i==3 && flag==0){
+		if(i==4 && flag==0){
 			stage.clear();
 			flag=1;
 		}
 		if(flag==1){
-			screenhandler.getStages().put(2,screenhandler.init(new tankselect("tanksel/bg.png")));
+			screenhandler.getStages().put(3,screenhandler.init(new tankselect("tanksel/bg.png")));
 			flag=0;
 		}
 		stage.draw();

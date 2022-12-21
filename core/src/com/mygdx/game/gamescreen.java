@@ -35,7 +35,7 @@ public class gamescreen extends screen implements Screen, InputProcessor {
         aspectratio=(float)Gdx.graphics.getHeight()/(float)Gdx.graphics.getWidth();
         movement=new Vector2();
         Bg=new Texture(Gdx.files.internal("gamescreen/theme2.png"));
-        ground=new Texture(Gdx.files.internal("gamescreen/terrainFinal.png"));
+        ground=new Texture(Gdx.files.internal("gamescreen/terrain.png"));
         batch=new SpriteBatch();
         temp=new Array<Body>();
         create();
@@ -97,7 +97,7 @@ public class gamescreen extends screen implements Screen, InputProcessor {
             }
         }
         batch.end();
-        box2DDebugRenderer.render(world,camera.combined);
+//        box2DDebugRenderer.render(world,camera.combined);
         stage.draw();
         world.step(TIMESTEP, VELOCITYITERATIONS,POSITIONITERATION);
     }
@@ -125,6 +125,7 @@ public class gamescreen extends screen implements Screen, InputProcessor {
     public void dispose(){
         world.dispose();
         box2DDebugRenderer.dispose();
+        batch.dispose();
     }
 
 
@@ -134,11 +135,21 @@ public class gamescreen extends screen implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-//        System.out.println("gamescreen :: keyDown");
         switch (keycode){
             case Input.Keys.W:
+                tank1.yinc();
+                break;
             case Input.Keys.S:
-                tank1.muzzle().applyForce(-10000,-10000,15,0,true);
+                tank1.ydec();
+                break;
+            case Input.Keys.Q:
+                tank1.xinc();
+                break;
+            case Input.Keys.E:
+                tank1.xdec();
+                break;
+            case Input.Keys.F:
+                tank1.shoot(world);
             case Input.Keys.D:
                 tank1.getLeftaxis().enableMotor(true);
                 tank1.getLeftaxis().setMotorSpeed(-999999999);
